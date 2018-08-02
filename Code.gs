@@ -1,11 +1,14 @@
-function counter() {
+function counter(range) {
   //Created By Kennen Lawrence 720-317-5427
-  //Version 1.0
+  //Version 1.1
   var ss=SpreadsheetApp.getActiveSpreadsheet();
   var sheet=ss.getActiveSheet();
-  var range=sheet.getRange(2,2,sheet.getLastRow()-1,4).getValues();
+  range=sheet.getRange(2,2,sheet.getLastRow()-1,4).getValues();
   var names=[[]];var found=false;var num=0;
   var rank=[];var temp;var r=0;
+  for(var i=0;i<range.length;i++){if(range[i][0]!=undefined&&range[i][0]!=""&&range[i][0]!=null){found=true;}}
+  if(!found){return "No Data";}
+  found=false;
   names[0][0]=range[0][0].toLowerCase();
   if(range[0][3].toLowerCase()=="yes"||range[0][3].toLowerCase()=="yes "||range[0][3].toLowerCase()==" yes"){names[0][1]=1;}else{names[0][1]=0;}
   for(var i=1;i<range.length;i++){
