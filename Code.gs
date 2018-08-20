@@ -79,23 +79,24 @@ function agentRatio(values) {
   for(i=0;i<values.length;i++){
     if(values[i][0]!=undefined && values[i][0]!=null && values[i][0]!="" && values[i][0].toLowerCase()!="lsp"){
       if(agents.length==0){
-        agents[0]=[values[i][0].toLowerCase(),0,0];
-        if(values[i][2].toLowerCase()=="yes"){agents[0][1]+=1;}
-        else if(values[i][2].toLowerCase()=="no"){agents[0][2]+=1;}
+        agents[0]=[values[i][0].toLowerCase(),1,0,0];
+        if(values[i][2].toLowerCase()=="yes"){agents[0][2]+=1;}
+        else if(values[i][2].toLowerCase()=="no"){agents[0][3]+=1;}
       }
       else{
         found=false;
         for(var j=0;j<agents.length;j++){
           if(values[i][0].toLowerCase()==agents[j][0]){
             found=true;
-            if(values[i][2].toLowerCase()=="yes"){agents[j][1]+=1;}
-            else if(values[i][2].toLowerCase()=="no"){agents[j][2]+=1;}
+            agents[j][1]+=1;
+            if(values[i][2].toLowerCase()=="yes"){agents[j][2]+=1;}
+            else if(values[i][2].toLowerCase()=="no"){agents[j][3]+=1;}
           }
         }
         if(!found){
-          agents[agents.length]=[values[i][0].toLowerCase(),0,0];
-          if(values[i][2].toLowerCase()=="yes"){agents[agents.length-1][1]+=1;}
-          else if(values[i][2].toLowerCase()=="no"){agents[agents.length-1][2]+=1;}
+          agents[agents.length]=[values[i][0].toLowerCase(),1,0,0];
+          if(values[i][2].toLowerCase()=="yes"){agents[agents.length-1][2]+=1;}
+          else if(values[i][2].toLowerCase()=="no"){agents[agents.length-1][3]+=1;}
         }
       }
     }
