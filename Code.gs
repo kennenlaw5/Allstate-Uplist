@@ -64,7 +64,7 @@ function counter(range) {
     for(j=0;j<names[i].length;j++){
       if (names[i][j] != "") {
         name += names[i][j];
-        if (j+1 < names[i].length) { name  += ""; }
+        if (j+1 < names[i].length) { name  += " "; }
       }
     }
     rank[i][0]=name;
