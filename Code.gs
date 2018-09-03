@@ -1,6 +1,6 @@
 function counter(range) {
   //Created By Kennen Lawrence 720-317-5427
-  //Version 1.1
+  //Version 1.3
   var ss=SpreadsheetApp.getActiveSpreadsheet();
   var sheet=ss.getActiveSheet();
   range=sheet.getRange(1,2,sheet.getLastRow(),4).getValues();
@@ -10,7 +10,13 @@ function counter(range) {
   for(var i=0;i<range.length;i++){if(range[i][0]!=undefined&&range[i][0]!=""&&range[i][0]!=null){found=true;}}
   if(!found){return "No Data";}
   found=false;
-  names[0][0]=range[0][0].toLowerCase();
+  for(i = 0; i < range.length && !found; i++){
+    if(range[i][0].toLowerCase() != "client advisor"){
+      found = true;
+      names[0][0]=range[i][0].toLowerCase();
+    }
+  }
+  found = false;
   if(range[0][3].toLowerCase()=="yes"||range[0][3].toLowerCase()=="yes "||range[0][3].toLowerCase()==" yes"){names[0][1]=1;}else{names[0][1]=0;}
   for(var i=1;i<range.length;i++){
     if(range[i][0]!=""){
@@ -28,7 +34,6 @@ function counter(range) {
           num=names.length;
           names[num]=[range[i][0].toLowerCase(),0];
           if(range[i][3].toLowerCase()=="yes"||range[i][3].toLowerCase()=="yes "||range[i][3].toLowerCase()==" yes"){names[num][1]+=1;}
-          Logger.log(names[num]);
         }
       }
     }else{i=range.length;}
@@ -69,9 +74,9 @@ function counter(range) {
     }
     rank[i][0]=name;
   }
-  Logger.log(totalNames);
-  Logger.log(totalYes);
-  Logger.log(rank);
+//  Logger.log(totalNames);
+//  Logger.log(totalYes);
+//  Logger.log(rank);
   //sheet.getRange(1,5,totalNames,2).setValues(rank);
   return rank;
 }
