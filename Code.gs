@@ -3,9 +3,10 @@ function counter(range) {
   //Version 1.1
   var ss=SpreadsheetApp.getActiveSpreadsheet();
   var sheet=ss.getActiveSheet();
-  range=sheet.getRange(2,2,sheet.getLastRow()-1,4).getValues();
+  range=sheet.getRange(1,2,sheet.getLastRow(),4).getValues();
   var names=[[]];var found=false;var num=0;
   var rank=[];var temp;var r=0;
+  var name = "";
   for(var i=0;i<range.length;i++){if(range[i][0]!=undefined&&range[i][0]!=""&&range[i][0]!=null){found=true;}}
   if(!found){return "No Data";}
   found=false;
@@ -54,9 +55,18 @@ function counter(range) {
   for(i=0;i<totalNames;i++){
     names[i]=rank[i][0];
     names[i]=names[i].split(" ");
-    names[i][0]=names[i][0][0].toUpperCase() + names[i][0].substring(1);
-    names[i][1]=names[i][1][0].toUpperCase()+names[i][1].substring(1);
-    rank[i][0]=names[i][0]+" "+names[i][1];
+    for(j=0;j<names[i].length;j++){
+      if (names[i][j] != "") {
+        names[i][j]=names[i][j][0].toUpperCase() + names[i][j].substring(1);
+      }
+    }
+    name = "";
+    for(j=0;j<names[i].length;j++){
+      if (names[i][j] != "") {
+        name += names[i][j];
+      }
+    }
+    rank[i][0]=name;
   }
   Logger.log(totalNames);
   Logger.log(totalYes);
