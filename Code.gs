@@ -7,6 +7,7 @@ function counter(range) {
   var names=[[]];var found=false;var num=0;
   var rank=[];var temp;var r=0;
   var name = "";
+  var ignored = ["missed","fedex","allstate trade","skip","comm","calling","out of state","heater","lbo","preprint","permission?",""];
   for(var i=0;i<range.length;i++){if(range[i][0]!=undefined&&range[i][0]!=""&&range[i][0]!=null){found=true;}}
   if(!found){return "No Data";}
   found=false;
@@ -17,26 +18,55 @@ function counter(range) {
     }
   }
   found = false;
-  if(range[0][3].toLowerCase()=="yes"||range[0][3].toLowerCase()=="yes "||range[0][3].toLowerCase()==" yes"){names[0][1]=1;}else{names[0][1]=0;}
+  if(range[0][3].toLowerCase()=="yes"||range[0][3].toLowerCase()=="yes "||range[0][3].toLowerCase()==" yes"){
+    names[0][1]=1;
+    names[0][2]=1;
+    names[0][3]=1;
+  }else if (ignored.indexOf(range[0][3].toLowerCase()) == -1) {
+    names[0][1]=0;
+    names[0][2]=1;
+    names[0][3]=1;
+  } else {
+    names[0][1]=0;
+    names[0][2]=1;
+    names[0][3]=0;
+  }
   for(var i=1;i<range.length;i++){
-    if(range[i][0]!=""){
-      if(range[i][0]!="Client Advisor"){
-        found=false;
-        for(var j=0;j<names.length && found==false;j++){
-          if(range[i][0].toLowerCase()==names[j][0]){
-            found=true;
-            if(range[i][3].toLowerCase()=="yes"||range[i][3].toLowerCase()=="yes "||range[i][3].toLowerCase()==" yes"){
-              names[j][1]+=1;
-            }
+    if(range[i][0]!="" && range[i][0]!="Client Advisor"){
+      found=false;
+      for(var j=0;j<names.length && found==false;j++){
+        if(range[i][0].toLowerCase()==names[j][0]){
+          found=true;
+          if(range[i][3].toLowerCase()=="yes"||range[i][3].toLowerCase()=="yes "||range[i][3].toLowerCase()==" yes"){
+            names[j][1]+=1;
+            names[j][2]+=1;
+            names[j][3]+=1;
+          } else if (ignored.indexOf(range[i][3].toLowerCase()) == -1) {
+            names[j][2]+=1;
+            names[j][3]+=1;
+          } else {
+            names[j][2] += 1;
           }
         }
-        if(found==false){
-          num=names.length;
-          names[num]=[range[i][0].toLowerCase(),0];
-          if(range[i][3].toLowerCase()=="yes"||range[i][3].toLowerCase()=="yes "||range[i][3].toLowerCase()==" yes"){names[num][1]+=1;}
+      }
+      if(found==false){
+        num=names.length;
+        names[num]=[range[i][0].toLowerCase(),0];
+        if(range[i][3].toLowerCase()=="yes"||range[i][3].toLowerCase()=="yes "||range[i][3].toLowerCase()==" yes") {
+          names[num][1]=1;
+          names[num][2]=1;
+          names[num][3]=1;
+        } else if (ignored.indexOf(range[i][3].toLowerCase()) == -1) {
+          names[num][1]=0;
+          names[num][2]=1;
+          names[num][3]=1;
+        } else {
+          names[num][1]=0;
+          names[num][2]=1;
+          names[num][3]=0;
         }
       }
-    }else{i=range.length;}
+    }
   }
   var totalYes=0;
   var totalNames=names.length;
@@ -74,9 +104,9 @@ function counter(range) {
     }
     rank[i][0]=name;
   }
-//  Logger.log(totalNames);
-//  Logger.log(totalYes);
-//  Logger.log(rank);
+  //  Logger.log(totalNames);
+  //  Logger.log(totalYes);
+  //  Logger.log(rank);
   //sheet.getRange(1,5,totalNames,2).setValues(rank);
   return rank;
 }
