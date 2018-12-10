@@ -6,13 +6,13 @@ function counter(range) {
   range=sheet.getRange(1,2,sheet.getLastRow(),4).getValues();
   var names=[[]];var found=false;var num=0;
   var rank=[];var temp;var r=0;
-  var name = "";
-  var ignored = ["missed","fedex","allstate trade","skip","comm","calling","out of state","heater","lbo","preprint","permission?",""];
+  var name = '';
+  var ignored = ['missed', 'fedex', 'allstate trade', 'skip', 'comm', 'calling', 'out of state', 'heater', 'lbo', 'preprint', 'permission?', ''];
   for(var i=0;i<range.length;i++){if(range[i][0]!=undefined&&range[i][0]!=""&&range[i][0]!=null){found=true;}}
   if(!found){return "No Data";}
   found=false;
   for(i = 0; i < range.length && !found; i++){
-    if(range[i][0].toLowerCase() != "client advisor"){
+    if(range[i][0].toLowerCase() != 'client advisor' && range[i][0] != ''){
       found = true;
       names[0][0]=range[i][0].toLowerCase();
     }
