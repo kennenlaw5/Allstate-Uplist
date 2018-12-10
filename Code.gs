@@ -3,16 +3,16 @@ function counter(range) {
   //Version 1.3
   var ss=SpreadsheetApp.getActiveSpreadsheet();
   var sheet=ss.getActiveSheet();
-  range=sheet.getRange(1,2,sheet.getLastRow(),4).getValues();
+  //range = sheet.getRange(1,2,sheet.getLastRow(),4).getValues();
   var names=[[]];var found=false;var num=0;
   var rank=[];var temp;var r=0;
   var name = '';
   var ignored = ['missed', 'fedex', 'allstate trade', 'skip', 'comm', 'calling', 'out of state', 'heater', 'lbo', 'preprint', 'permission?', ''];
-  for(var i=0;i<range.length;i++){if(range[i][0]!=undefined&&range[i][0]!=""&&range[i][0]!=null){found=true;}}
-  if(!found){return "No Data";}
+  for (var i = 0; i < range.length; i++) { if (range[i][0] != undefined && range[i][0] != '' && range[i][0] != null && range[i][0].toLowerCase() != 'client advisor') { found=true; } }
+  if (!found) { return "No Data"; }
   found=false;
   for(i = 0; i < range.length && !found; i++){
-    if(range[i][0].toLowerCase() != 'client advisor' && range[i][0] != ''){
+    if(range[i][0].toLowerCase() != 'client advisor'){
       found = true;
       names[0][0]=range[i][0].toLowerCase();
     }
