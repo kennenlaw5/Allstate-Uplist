@@ -19,6 +19,8 @@ function newMonth() {
   }
   
   updatePaceLinkSheet();
+  
+  if (date.getMonth() == 0) { updateSummaryValidation(date.getYear()); }
 }
 
 function updatePaceLinkSheet() {
@@ -41,4 +43,16 @@ function updatePaceLinkSheet() {
   formulas[0][10] = "=SORT(agentRatio('Mini " + name + "'!C:E, P3),1,TRUE)";
   range.setFormulas(formulas);
   sheet.getRange('P2:Q2').setValues([[month, year]]);
+}
+
+function updateSummaryValidation(year) {
+  year = year.toString();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Summary');
+  var range = sheet.getRange('Q2');
+  var validation = range.getDataValidation();
+  var values = validation.getCriteriaValues();
+  values[0].push(year);
+  validation = validation.copy().requireValueInList(values[0]).setAllowInvalid(false).build();
+  range.setDataValidation(validation);
 }
