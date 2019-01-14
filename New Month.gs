@@ -17,4 +17,28 @@ function newMonth() {
     ss.moveActiveSheet(2);
     SpreadsheetApp.flush()
   }
+  
+  updatePaceLinkSheet();
+}
+
+function updatePaceLinkSheet() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('PACE_link');
+  if (sheet == null) { throw 'PACE_link sheet was not found! Please correct the error or contact Kennen!'; }
+  var month, year, range, formulas;
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheets = ss.getSheets();
+  var name = Utilities.formatDate(new Date(), 'MST', "MMM YYYY").toUpperCase();
+  if (name.indexOf('SEP') != -1) { name = name.replace('SEP', 'SEPT'); }
+  
+  month = name.split(' ')[0];
+  year = name.split(' ')[1].toString();
+  
+  range = sheet.getRange('A3:K3');
+  formulas = range.getFormulas();
+  formulas[0][0] = "=SORT(agentRatio('BMW " + name + "'!C:E, P3),1,TRUE)";
+  formulas[0][5] = "=SORT(agentRatio('Honda " + name + "'!C:E, P3),1,TRUE)";
+  formulas[0][10] = "=SORT(agentRatio('Mini " + name + "'!C:E, P3),1,TRUE)";
+  range.setFormulas(formulas);
+  sheet.getRange('P2:Q2').setValues([[month, year]]);
 }
