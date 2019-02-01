@@ -7,22 +7,23 @@ function counter(range) {
   var names=[[]];var found=false;var num=0;
   var rank=[];var temp;var r=0;
   var name = '';
+  var yes = ['yes', 'yes ', ' yes'];
   var ignored = ['missed', 'fedex', 'allstate trade', 'skip', 'comm', 'calling', 'out of state', 'heater', 'lbo', 'preprint', 'permission?', ''];
   for (var i = 0; i < range.length; i++) { if (range[i][0] != undefined && range[i][0] != '' && range[i][0] != null && range[i][0].toLowerCase() != 'client advisor') { found=true; } }
   if (!found) { return "No Data"; }
   found=false;
-  for(i = 0; i < range.length && !found; i++){
-    if(range[i][0].toLowerCase() != 'client advisor'){
+  for (i = 0; i < range.length && !found; i++) {
+    if (range[i][0].toString().toLowerCase() != 'client advisor') {
       found = true;
-      names[0][0]=range[i][0].toLowerCase();
+      names[0][0] = range[i][0].toLowerCase();
     }
   }
   found = false;
-  if(range[0][3].toLowerCase()=="yes"||range[0][3].toLowerCase()=="yes "||range[0][3].toLowerCase()==" yes"){
+  if (yes.indexOf(range[0][3].toString().toLowerCase()) != -1) {
     names[0][1]=1;
     names[0][2]=1;
     names[0][3]=1;
-  }else if (ignored.indexOf(range[0][3].toLowerCase()) == -1) {
+  } else if (ignored.indexOf(range[0][3].toString().toLowerCase()) == -1) {
     names[0][1]=0;
     names[0][2]=1;
     names[0][3]=1;
@@ -31,7 +32,7 @@ function counter(range) {
     names[0][2]=1;
     names[0][3]=0;
   }
-  for(var i=1;i<range.length;i++){
+  for (var i = 1; i < range.length; i++) {
     if(range[i][0]!="" && range[i][0]!="Client Advisor"){
       found=false;
       for(var j=0;j<names.length && found==false;j++){
@@ -115,7 +116,7 @@ function agentRatio(values) {
   /* Code left for debugging!
   var ss=SpreadsheetApp.getActiveSpreadsheet();
   var sheet=ss.getSheetByName('BMW August 2018');
-  values=sheet.getRange(2,3,sheet.getLastRow()-1,3).getValues();*/
+  values=sheet.getRange(1,3,sheet.getLastRow(),3).getValues();*/
   var agents=[];var found=false;
   for(var i=0;i<values.length;i++){
     if(values[i][0]!=undefined && values[i][0]!=null && values[i][0]!=""){

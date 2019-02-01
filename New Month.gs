@@ -15,7 +15,7 @@ function newMonth() {
     if (ss.getSheetByName(dealers[i] + ' ' + name) != null) { dealers[i] += ' 2'; }
     ss.getSheetByName(dealers[i] + ' Master').copyTo(ss).setName(dealers[i] + ' ' + name).activate();
     ss.moveActiveSheet(2);
-    SpreadsheetApp.flush()
+    SpreadsheetApp.flush();
   }
   
   updatePaceLinkSheet();
@@ -24,6 +24,7 @@ function newMonth() {
 }
 
 function updatePaceLinkSheet() {
+  SpreadsheetApp.flush();
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName('PACE_link');
   if (sheet == null) { throw 'PACE_link sheet was not found! Please correct the error or contact Kennen!'; }
