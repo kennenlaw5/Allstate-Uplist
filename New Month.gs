@@ -6,14 +6,18 @@ function onOpen() {
 function newMonth() {
   var date = new Date();
   if (date.getDate() != 1) { return; }
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
   var name = Utilities.formatDate(date, 'MST', "MMM YYYY").toUpperCase();
   var dealers = ['Mini', 'Honda', 'BMW'];
   if (date.getMonth() == 8) { name = name.replace('SEP', 'SEPT'); }
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var needsDuplicate;
+  
   
   for (var i = 0; i < dealers.length; i++) {
-    if (ss.getSheetByName(dealers[i] + ' ' + name) != null) { dealers[i] += ' 2'; }
-    ss.getSheetByName(dealers[i] + ' Master').copyTo(ss).setName(dealers[i] + ' ' + name).activate();
+    needsDuplicate = false;
+    if (ss.getSheetByName(dealers[i] + ' ' + name) != null) { needsDuplicate = true; }
+    ss.getSheetByName(dealers[i] + ' Master').copyTo(ss).setName(dealers[i] + (needsDuplicate ? ' 2' : '') + ' ' + name).activate();
+    SpreadsheetApp.flush();
     ss.moveActiveSheet(2);
     SpreadsheetApp.flush();
   }
@@ -39,9 +43,9 @@ function updatePaceLinkSheet() {
   
   range = sheet.getRange('A3:K3');
   formulas = range.getFormulas();
-  formulas[0][0] = "=SORT(agentRatio('BMW " + name + "'!C:E, P3),1,TRUE)";
-  formulas[0][5] = "=SORT(agentRatio('Honda " + name + "'!C:E, P3),1,TRUE)";
-  formulas[0][10] = "=SORT(agentRatio('Mini " + name + "'!C:E, P3),1,TRUE)";
+  formulas[0][0] = "=SORT(agentRatio('BMW " + name + "'!$C$1:E, P3),1,TRUE)";
+  formulas[0][5] = "=SORT(agentRatio('Honda " + name + "'!$C$1:E, P3),1,TRUE)";
+  formulas[0][10] = "=SORT(agentRatio('Mini " + name + "'!$C$1:E, P3),1,TRUE)";
   range.setFormulas(formulas);
   sheet.getRange('P2:Q2').setValues([[month, year]]);
 }

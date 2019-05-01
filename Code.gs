@@ -1,11 +1,15 @@
 function counter(range) {
   //Created By Kennen Lawrence 720-317-5427
   //Version 1.3
-  var ss=SpreadsheetApp.getActiveSpreadsheet();
-  var sheet=ss.getActiveSheet();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getActiveSheet();
   //range = sheet.getRange(1,2,sheet.getLastRow(),4).getValues();
-  var names=[[]];var found=false;var num=0;
-  var rank=[];var temp;var r=0;
+  var names=[[]];
+  var found=false;
+  var num=0;
+  var rank=[];
+  var temp;
+  var r=0;
   var name = '';
   var yes = ['yes', 'yes ', ' yes'];
   var ignored = ['missed', 'fedex', 'allstate trade', 'skip', 'comm', 'calling', 'out of state', 'heater', 'lbo', 'preprint', 'permission?', ''];
